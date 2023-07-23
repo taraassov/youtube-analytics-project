@@ -10,11 +10,17 @@ class Video():
         APY_KEY: str = os.getenv('API_KEY')
         youtube = build('youtube', 'v3', developerKey=APY_KEY)
         video = youtube.videos().list(id=self.__video_id, part='snippet,statistics').execute()
-        #print(video)
-        self.title = video['items'][0]['snippet']['title']
-        self.url = f"https://www.youtube.com/watch?v={self.__video_id}"
-        self.view_count = video['items'][0]['statistics']['viewCount']
-        self.like_count = video['items'][0]['statistics']['likeCount']
+        try:
+            #print(video)
+            self.title = video['items'][0]['snippet']['title']
+            self.url = f"https://www.youtube.com/watch?v={self.__video_id}"
+            self.view_count = video['items'][0]['statistics']['viewCount']
+            self.like_count = video['items'][0]['statistics']['likeCount']
+        except:
+            self.title = None
+            self.url = None
+            self.view_count = None
+            self.like_count = None
 
     def __str__(self):
         return self.title
